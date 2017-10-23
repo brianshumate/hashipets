@@ -1,0 +1,518 @@
+#
+# Consul snippets
+#
+
+##
+## `consul` command snippets
+##
+
+[[snippets]]
+  description = "List all known datacenters from the catalog"
+  command = "consul catalog datacenters"
+  tag = ["consul"]
+  output = """
+dc1
+"""
+
+[[snippets]]
+  description = "List all known nodes from the catalog"
+  command = "consul catalog nodes"
+  tag = ["consul"]
+  output = """
+Node                 ID        Address     DC
+consul_oss_client_0  57a2531f  172.17.0.5  dc1
+consul_oss_client_1  4f05e71e  172.17.0.7  dc1
+consul_oss_client_2  425e9e82  172.17.0.6  dc1
+consul_oss_server_0  540ba725  172.17.0.2  dc1
+consul_oss_server_1  ee2fcd1f  172.17.0.3  dc1
+consul_oss_server_2  8d37a161  172.17.0.4  dc1
+"""
+
+[[snippets]]
+  description = "List all known services from the catalog"
+  command = "consul catalog services"
+  tag = ["consul"]
+  output = """
+consul
+vault
+"""
+
+[[snippets]]
+  description = "Provides debugging information for operators"
+  command = "consul info"
+  tag = ["consul"]
+
+[[snippets]]
+  description = "Generate a gossip encryption key"
+  command = "consul keygen"
+  tag = ["consul"]
+  output = """
+5ctx/MyDnAnR+82J1sQvJg==
+"""
+
+[[snippets]]
+  description = "Delete KV entry (Note: path to key should not include leading slash or 'kv' prefix)"
+  command = "consul kv delete <path_to_key>"
+  tag = ["consul"]
+  output = """
+Success! Deleted key: <path_to_key>
+"""
+
+[[snippets]]
+  description = "Export KV tree to JSON file, suitable for importing with `consul kv import` (Note: <key> is just the bare target key name, e.g. vault)"
+  command = "consul kv export <key> > <filename.json>"
+  tag = ["consul"]
+
+[[snippets]]
+  description = "Import a JSON based KV tree representation from `consul kv export`"
+  command = "consul kv import @<filename.json>"
+  tag = ["consul"]
+  output = """
+
+"""
+
+[[snippets]]
+  description = "Set or update KV entry (Note: path to key should not include leading slash or 'kv' prefix)"
+  command = "consul kv put <path_to_key> <value>"
+  tag = ["consul"]
+  output = """
+Success! Data written to: <path_to_key>
+"""
+
+[[snippets]]
+  description = "Show current Consul cluster members"
+  command = "consul members"
+  tag = ["consul"]
+  output = """
+Node                 Address          Status  Type    Build  Protocol  DC    Segment
+consul_oss_server_0  172.17.0.2:8301  alive   server  0.9.3  2         dc1  <all>
+consul_oss_server_1  172.17.0.3:8301  alive   server  0.9.3  2         dc1  <all>
+consul_oss_server_2  172.17.0.4:8301  alive   server  0.9.3  2         dc1  <all>
+consul_oss_client_0  172.17.0.5:8301  alive   client  0.9.3  2         dc1  <default>
+consul_oss_client_1  172.17.0.7:8301  alive   client  0.9.3  2         dc1  <default>
+consul_oss_client_2  172.17.0.6:8301  alive   client  0.9.3  2         dc1  <default>
+"""
+
+[[snippets]]
+  description = "Display the current Raft peer configuration"
+  command = "consul operator raft list-peers"
+  tag = ["consul"]
+  output = """
+Node                 ID                                    Address          State     Voter  RaftProtocol
+consul_oss_server_0  540ba725-165e-704f-ecb6-aec22518f037  172.17.0.2:8300  leader    true   3
+consul_oss_server_1  ee2fcd1f-7478-69c6-171a-1dc06a040d9a  172.17.0.3:8300  follower  true   3
+consul_oss_server_2  8d37a161-12a1-c426-4460-782b3cb4b51a  172.17.0.4:8300  follower  true   3
+"""
+
+[[snippets]]
+  description = "Write a Consul snapshot to disk"
+  command = "consul snapshot save <filename.snap>"
+  tag = ["consul"]
+  output = """
+Saved and verified snapshot to index 9001
+"""
+
+[[snippets]]
+  description = "Monitor Consul operational logging at debug level and save to file"
+  command = "consul monitor -log-level=\"debug\" | tee `hostname`-`date +%Y-%m-%dT%H:%M:%SZ`-consul-monitor.log"
+  tag = ["consul"]
+
+[[snippets]]
+  description = "Validate Consul configuration file"
+  command = "consul validate <configuration_file.json>"
+  tag = ["consul"]
+  output = """
+Configuration is valid!
+"""
+
+[[snippets]]
+  description = ""
+  command = ""
+  tag = ["consul"]
+  output = """
+
+"""
+
+##
+## OS commands related to Consul
+##
+
+[[snippets]]
+  description = "List current ulimits for Consul process ID via /proc"
+  command = "cat /proc/`pidof consul`/limits"
+  tag = ["consul"]
+  output = """
+Max cpu time              unlimited            unlimited            seconds
+Max file size             unlimited            unlimited            bytes
+Max data size             unlimited            unlimited            bytes
+Max stack size            8388608              unlimited            bytes
+Max core file size        0                    unlimited            bytes
+Max resident set          unlimited            unlimited            bytes
+Max processes             unlimited            unlimited            processes
+Max open files            1048576              1048576              files
+Max locked memory         83968000             83968000             bytes
+Max address space         unlimited            unlimited            bytes
+Max file locks            unlimited            unlimited            locks
+Max pending signals       7754                 7754                 signals
+Max msgqueue size         819200               819200               bytes
+Max nice priority         0                    0
+Max realtime priority     0                    0
+Max realtime timeout      unlimited            unlimited            us
+"""
+
+[[snippets]]
+  description = "List number of open files for Consul process ID via /proc"
+  command = "ls -l /proc/`pidof consul`/fd/ | wc -l"
+  tag = ["consul"]
+  output = """
+29
+"""
+
+#
+# Nomad snippets
+#
+
+[[snippets]]
+  description = ""
+  command = ""
+  tag = ["nomad"]
+  output = """
+
+"""
+
+[[snippets]]
+  description = "Validate a job file"
+  command = "nomad validate <job_file.nomad>"
+  tag = ["nomad"]
+  output = """
+Job validation successful
+"""
+
+#
+# Packer snippets
+#
+
+[[snippets]]
+  description = "Validate template"
+  command = "packer validate <template.json>"
+  tag = ["packer"]
+  output = """
+Template validated successfully.
+"""
+
+#
+# Terraform snippets
+#
+
+[[snippets]]
+  description = "Apply canoonical formatting to Terraform configuration files — execute from a directory of Terraform files"
+  command = "terraform fmt"
+  tag = ["terraform"]
+
+[[snippets]]
+  description = "Print tree of providers used in current configuration"
+  command = "terraform fmt"
+  tag = ["terraform"]
+  output = """
+.
+├── provider.docker
+├── module.consul_cluster
+│   ├── provider.docker (inherited)
+│   └── provider.template
+└── module.vaultron
+    ├── provider.docker (inherited)
+    └── provider.template
+"""
+
+[[snippets]]
+  description = "Validate configuration files — execute from a directory of Terraform files"
+  command = "terraform validate"
+  tag = ["terraform"]
+
+#
+# Vagrant snippets
+#
+
+[[snippets]]
+  description = "Global status"
+  command = "vagrant global-status"
+  tag = ["vagrant"]
+  output = """
+id       name    provider   state   directory
+--------------------------------------------------------------------------------------------
+5ad285c  default virtualbox running /Users/brian/sandbox/vagrant/rando
+7205451  default virtualbox running /Users/brian/sandbox/vagrant/centos7
+dbf5b94  consul1 virtualbox running /Users/brian/ansible_roles/brianshumate.consul/examples
+83390b9  consul2 virtualbox running /Users/brian/ansible_roles/brianshumate.consul/examples
+9f3b2ad  consul3 virtualbox running /Users/brian/ansible_roles/brianshumate.consul/examples
+b82e909  default virtualbox running /Users/brian/sandbox/vagrant/ubuntu_1604
+
+The above shows information about all known Vagrant environments
+on this machine. This data is cached and may not be completely
+up-to-date. To interact with any of the machines, you can go to
+that directory and run Vagrant, or you can use the ID directly
+with Vagrant commands from any directory. For example:
+"vagrant destroy 1a2b3c4d"
+"""
+
+[[snippets]]
+  description = "List installed boxes"
+  command = "vagrant box list"
+  tag = ["vagrant"]
+  output = """
+bento/centos-7.3   (virtualbox, 2.3.8)
+bento/ubuntu-16.04 (virtualbox, 201708.22.0)
+bento/ubuntu-17.04 (virtualbox, 2.3.8)
+debian/jessie64    (virtualbox, 8.9.0)
+"""
+
+[[snippets]]
+  description = "Output ssh configuration for connecting to box"
+  command = "vagrant ssh-config"
+  tag = ["vagrant"]
+  output = """
+Host default
+  HostName 127.0.0.1
+  User vagrant
+  Port 2202
+  UserKnownHostsFile /dev/null
+  StrictHostKeyChecking no
+  PasswordAuthentication no
+  IdentityFile $BOX/.vagrant/machines/default/virtualbox/private_key
+  IdentitiesOnly yes
+  LogLevel FATAL
+  ForwardAgent yes
+"""
+
+[[snippets]]
+  description = "Validate Vagrantfile - execute in same directory as Vagrantfile"
+  command = "vagrant validate"
+  tag = ["vagrant"]
+  output = """
+Vagrantfile validated successfully.
+"""
+
+#
+# Vault snippets
+#
+
+##
+## `vault` command snippets
+##
+
+[[snippets]]
+  description = ""
+  command = ""
+  tag = ["vault"]
+  output = """
+
+"""
+
+[[snippets]]
+  description = "Display currently enabled authentication methods"
+  command = "vault auth -methods"
+  tag = ["vault"]
+  output = """
+Path       Type      Accessor                Default TTL  Max TTL  Replication Behavior  Description
+app-id/    app-id    auth_app-id_f25f2293    system       system   replicated
+approle/   approle   auth_approle_dc7e1103   system       system   replicated
+ldap/      ldap      auth_ldap_cf305f09      system       system   replicated
+token/     token     auth_token_16ada9ef     system       system   replicated            token based credentials
+userpass/  userpass  auth_userpass_4e7e54f8  system       system   replicated
+"""
+
+[[snippets]]
+  description = "Check capabilities of token on a path"
+  command = "vault capabilties <token> <path>"
+  tag = ["vault"]
+  output = """
+
+"""
+
+[[snippets]]
+  description = "Delete data"
+  command = "vault delete <options> <path>"
+  tag = ["vault"]
+  output = """
+
+"""
+
+[[snippets]]
+  description = "Initialize Vault with only 1 key share"
+  command = "vault init -key-shares=1  -key-threshold=1"
+  tag = ["vault"]
+  output = """
+Unseal Key 1: zfpVosZWAwf6DsmRH2AgQzycjmPaHUsEmffAon1tY/4=
+Initial Root Token: c0ffeee2-afb8-1437-d2f9-8e418e767557
+
+Vault initialized with 1 keys and a key threshold of 1. Please
+securely distribute the above keys. When the vault is re-sealed,
+restarted, or stopped, you must provide at least 1 of these keys
+to unseal it again.
+
+Vault does not store the master key. Without at least 1 keys,
+your vault will remain permanently sealed.
+"""
+
+[[snippets]]
+  description = "Backend encryption key status - Term indicates the number of times the key has been rotated, e.g. with `vault rotate`"
+  command = "vault key-status"
+  tag = ["vault"]
+  output = """
+Key Term: 12
+Installation Time: 2017-10-22 04:19:44.610373537 +0000 UTC
+"""
+
+[[snippets]]
+  description = "List secrets or data"
+  command = "vault list <path>"
+  tag = ["vault"]
+  output = """
+Keys
+----
+key1
+key2
+key3
+"""
+
+[[snippets]]
+  description = "Display current backend mounts"
+  command = "vault mounts"
+  tag = ["vault"]
+  output = """
+Path                Type        Accessor             Plugin  Default TTL  Max TTL  Force No Cache  Replication Behavior  Description
+aws/                aws         aws_844bdea9         n/a     system       system   false           replicated
+consul/             consul      consul_8bbfb2cc      n/a     system       system   false           replicated
+cubbyhole/          cubbyhole   cubbyhole_5feea250   n/a     n/a          n/a      false           local                 per-token private secret storage
+pki/                pki         pki_172c280e         n/a     system       system   false           replicated
+postgresql/         postgresql  postgresql_b2aefde6  n/a     system       system   false           replicated
+secret/             kv          kv_7936a8a6          n/a     system       system   false           replicated            key/value secret storage
+ssh-client-signer/  ssh         ssh_7bbea075         n/a     system       system   false           replicated
+ssh-host-signer/    ssh         ssh_273bf496         n/a     system       system   false           replicated
+sys/                system      system_d9c0b482      n/a     n/a          n/a      false           replicated            system endpoints used for control, policy and debugging
+"""
+
+[[snippets]]
+  description = "Write a policy (replaces existing policy)"
+  command = "vault policy-write <name> <path_to_policy_file.hcl>"
+  tag = ["vault"]
+  output = """
+Policy '<name>' written.
+"""
+
+[[snippets]]
+  description = "Remount currently mounted secret backend to new path"
+  command = "vault remount pki demo_pki"
+  tag = ["vault"]
+  output = """
+Successfully remounted from 'pki' to 'demo_pki'!
+"""
+
+[[snippets]]
+  description = "Get Vault status"
+  command = "vault status"
+  tag = ["vault"]
+  output = """
+Sealed: false
+Key Shares: 5
+Key Threshold: 3
+Unseal Progress: 0
+Unseal Nonce:
+Version: 0.8.3
+Cluster Name: vaultron
+Cluster ID: 34fcf74f-0b2e-de18-1d71-c5e85723df89
+
+High-Availability Enabled: true
+  Mode: active
+  Leader Cluster Address: https://172.17.0.7:8201
+"""
+
+[[snippets]]
+  description = "Create a token with specific policy and display name"
+  command = "vault token-create -policy=<policy_name> -display-name=\"<display_name>\""
+  tag = ["vault"]
+  output = """
+
+"""
+
+[[snippets]]
+  description = "Look up information about token - use token id to get information on any specific token or no options to look up token currently used for authentication"
+  command = "vault token-lookup <token_id>"
+  tag = ["vault"]
+  output = """
+Key               Value
+---               -----
+accessor          88e104ec-2cfc-b1f5-9602-7b821e3ccb7e
+creation_time     1508645572
+creation_ttl      2764800
+display_name      token-orphan-extra
+expire_time       2017-11-23T04:12:52.259602475Z
+explicit_max_ttl  0
+id                09d68f76-55d7-95fe-b5c2-6f984b0ed011
+issue_time        2017-10-22T04:12:52.259596082Z
+meta              <nil>
+num_uses          0
+orphan            false
+path              auth/token/create
+policies          [default]
+renewable         true
+ttl               2764753
+"""
+
+[[snippets]]
+  description = "Renew a token"
+  command = "vault token-renew <tokend_id>"
+  tag = ["vault"]
+  output = """
+Key             Value
+---             -----
+token           9c66f38b-5f6f-19f1-c653-48a06b462aec
+token_accessor  89e48f3d-d612-e2d3-2757-74abbe20c09d
+token_duration  767h56m57s
+token_renewable true
+token_policies  [default]
+"""
+
+[[snippets]]
+  description = "Revoke a token - pass token accessor or id"
+  command = "vault token-revoke <token_accessor_or_id>"
+  tag = ["vault"]
+  output = """
+Success! Token revoked if it existed.
+"""
+
+##
+## OS commands related to Vault
+##
+
+[[snippets]]
+  description = "List current ulimits for Vault process ID via /proc"
+  command = "cat /proc/`pidof vault`/limits"
+  tag = ["vault"]
+  output = """
+Limit                     Soft Limit           Hard Limit           Units
+Max cpu time              unlimited            unlimited            seconds
+Max file size             unlimited            unlimited            bytes
+Max data size             unlimited            unlimited            bytes
+Max stack size            8388608              unlimited            bytes
+Max core file size        0                    unlimited            bytes
+Max resident set          unlimited            unlimited            bytes
+Max processes             unlimited            unlimited            processes
+Max open files            1048576              1048576              files
+Max locked memory         83968000             83968000             bytes
+Max address space         unlimited            unlimited            bytes
+Max file locks            unlimited            unlimited            locks
+Max pending signals       7754                 7754                 signals
+Max msgqueue size         819200               819200               bytes
+Max nice priority         0                    0
+Max realtime priority     0                    0
+Max realtime timeout      unlimited            unlimited            us
+"""
+
+[[snippets]]
+  description = "List number of open files for Consul process ID via /proc"
+  command = "ls -l /proc/`pidof vault`/fd/ | wc -l"
+  tag = ["consul"]
+  output = """
+11
+"""
