@@ -23,7 +23,7 @@ It's a nice means of recalling and sharing complex one-liners and seldom used co
 
 ## How?
 
-Using the fantastic CLI utility `pet` and the [hashipets.toml] in this repository, you'll be comanding HashiCorp tools like a pro in no time!
+Using the fantastic CLI utility `pet` and the [hashipets.toml](https://github.com/brianshumate/hashipets/blob/master/hashipets.toml) in this repository, you'll be comanding HashiCorp tools like a pro in no time!
 
 ### Quick Start for macOS
 
@@ -97,4 +97,4 @@ Here are some links to resources for the technologies used in this project:
 
 ## Special Thanks
 
-Thanks to [Teppei Fukuda](https://github.com/knqyf263) for making pet!
+Thanks to **[Teppei Fukuda](https://github.com/knqyf263)** for making `pet`!

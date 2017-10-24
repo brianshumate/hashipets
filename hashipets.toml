@@ -10,6 +10,7 @@
 #    An awesome collection of pet snippets for use
 #    with all of the great HashiCorp tools
 
+#
 # Consul snippets
 #
 
@@ -511,3 +512,7 @@ Max realtime timeout      unlimited            unlimited            us
   output = """
 11
 """
+
+#
+# End hashipets snippets
+#
