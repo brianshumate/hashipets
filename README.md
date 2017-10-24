@@ -9,11 +9,12 @@
     |_| |_|\__,_|___/_| |_|_| .__/ \___|\__|___/
                             |_|
 
-    [[[[[[[[[[[[[[[[[[[[[[]]]]]]]]]]]]]]]]]]]]]]
+    ============================================
+    --------------------------------------------
 
 ## What?
 
-**hashipets** is a collection of snippets for use with HashiCorp tools like
+🐶. **hashipets** is a collection of snippets for use with HashiCorp tools like
 Consul, Nomad, Packer, Terraform, Vagrant, and Vault. The snippets are kept in a TOML file that is compatible with the simple command-line snippet manager [pet](https://github.com/knqyf263/pet).
 
 ## Why?
@@ -34,27 +35,40 @@ Using the fantastic CLI utility `pet` and the [hashipets.toml] in this repositor
 
 ### What's Next?
 
-Use `pet` in amazing ways:
+You can optionally customize the `peco` fuzzy finder tool like so:
 
-List the snippets:
+```
+$ mkdir $HOME/.config/peco &&\
+  cp $DIR/hashipets/peco_config.json $_/config.json
+```
+
+Then use `pet` in awesome ways:
+
+#### List all snippets
 
 ```
 $ pet list
 ```
 
-Search the snippets:
+#### Search snippets
 
 ```
 $ pet search
 ```
 
-Add search result to the clipboard:
+#### Add search result to clipboard on macOS
 
 ```
 $ pet search | pbcopy
 ```
 
-Interactively add your own snippet:
+#### Execute a snippet
+
+```
+$ pet exec
+```
+
+#### Interactively add a snippet
 
 ```
 $ pet new
@@ -62,7 +76,7 @@ Command> curl -s <consul_http_addr>/v1/status/peers
 Description> Get Consul server peers from HTTP API
 ```
 
-See the [pet README](https://github.com/knqyf263/pet/blob/master/README.md) for more ways to use it with the snippets!
+See the [pet documentation](https://github.com/knqyf263/pet/blob/master/README.md) for more ways to use it!
 
 ## Resources
 
@@ -79,7 +93,7 @@ Here are some links to resources for the technologies used in this project:
 
 ## Who?
 
-hashipets was created by [Brian Shumate](https://github.com/brianshumate) and made possible through the generous time of the good people named in [CONTRIBUTORS.md](https://github.com/brianshumate/hashipets/blob/master/CONTRIBUTORS.md)
+**hashipets** was created by [Brian Shumate](https://github.com/brianshumate) and made possible through the generous time of the good people named in [CONTRIBUTORS.md](https://github.com/brianshumate/hashipets/blob/master/CONTRIBUTORS.md)
 
 ## Special Thanks
 

@@ -1,4 +1,15 @@
+#    ============================================
+#     _               _     _            _
+#    | |__   __ _ ___| |__ (_)_ __   ___| |_ ___
+#    | '_ \ / _` / __| '_ \| | '_ \ / _ \ __/ __|
+#    | | | | (_| \__ \ | | | | |_) |  __/ |_\__ \
+#    |_| |_|\__,_|___/_| |_|_| .__/ \___|\__|___/
+#                            |_|
+#    --------------------------------------------
 #
+#    An awesome collection of pet snippets for use
+#    with all of the great HashiCorp tools
+
 # Consul snippets
 #
 
@@ -38,7 +49,7 @@ vault
 """
 
 [[snippets]]
-  description = "Provides debugging information for operators"
+  description = "Show Debugging information for operators"
   command = "consul info"
   tag = ["consul"]
 
@@ -51,7 +62,7 @@ vault
 """
 
 [[snippets]]
-  description = "Delete KV entry (Note: path to key should not include leading slash or 'kv' prefix)"
+  description = "Delete KV entry (Note: <path_to_key> should not include leading slash or 'kv' prefix)"
   command = "consul kv delete <path_to_key>"
   tag = ["consul"]
   output = """
@@ -68,7 +79,9 @@ Success! Deleted key: <path_to_key>
   command = "consul kv import @<filename.json>"
   tag = ["consul"]
   output = """
-
+Imported: path/foo
+Imported: path/bar
+...
 """
 
 [[snippets]]
@@ -125,14 +138,6 @@ Saved and verified snapshot to index 9001
 Configuration is valid!
 """
 
-[[snippets]]
-  description = ""
-  command = ""
-  tag = ["consul"]
-  output = """
-
-"""
-
 ##
 ## OS commands related to Consul
 ##
@@ -140,7 +145,7 @@ Configuration is valid!
 [[snippets]]
   description = "List current ulimits for Consul process ID via /proc"
   command = "cat /proc/`pidof consul`/limits"
-  tag = ["consul"]
+  tag = ["consul", "os"]
   output = """
 Max cpu time              unlimited            unlimited            seconds
 Max file size             unlimited            unlimited            bytes
@@ -163,7 +168,7 @@ Max realtime timeout      unlimited            unlimited            us
 [[snippets]]
   description = "List number of open files for Consul process ID via /proc"
   command = "ls -l /proc/`pidof consul`/fd/ | wc -l"
-  tag = ["consul"]
+  tag = ["consul", "os"]
   output = """
 29
 """
@@ -171,14 +176,6 @@ Max realtime timeout      unlimited            unlimited            us
 #
 # Nomad snippets
 #
-
-[[snippets]]
-  description = ""
-  command = ""
-  tag = ["nomad"]
-  output = """
-
-"""
 
 [[snippets]]
   description = "Validate a job file"
@@ -301,14 +298,6 @@ Vagrantfile validated successfully.
 ##
 
 [[snippets]]
-  description = ""
-  command = ""
-  tag = ["vault"]
-  output = """
-
-"""
-
-[[snippets]]
   description = "Display currently enabled authentication methods"
   command = "vault auth -methods"
   tag = ["vault"]
@@ -326,7 +315,7 @@ userpass/  userpass  auth_userpass_4e7e54f8  system       system   replicated
   command = "vault capabilties <token> <path>"
   tag = ["vault"]
   output = """
-
+Capabilities: [read]
 """
 
 [[snippets]]
@@ -334,7 +323,7 @@ userpass/  userpass  auth_userpass_4e7e54f8  system       system   replicated
   command = "vault delete <options> <path>"
   tag = ["vault"]
   output = """
-
+Success! Deleted 'secret/foo' if it existed.
 """
 
 [[snippets]]
@@ -432,7 +421,13 @@ High-Availability Enabled: true
   command = "vault token-create -policy=<policy_name> -display-name=\"<display_name>\""
   tag = ["vault"]
   output = """
-
+Key             Value
+---             -----
+token           f3efa77c-ed31-bf53-fcd1-3044e7a57b26
+token_accessor  a6ba83b7-9c45-cd92-0427-c95c653daf59
+token_duration  768h0m0s
+token_renewable true
+token_policies  [default field_limited]
 """
 
 [[snippets]]
@@ -488,7 +483,7 @@ Success! Token revoked if it existed.
 [[snippets]]
   description = "List current ulimits for Vault process ID via /proc"
   command = "cat /proc/`pidof vault`/limits"
-  tag = ["vault"]
+  tag = ["vault", "os"]
   output = """
 Limit                     Soft Limit           Hard Limit           Units
 Max cpu time              unlimited            unlimited            seconds
@@ -510,9 +505,9 @@ Max realtime timeout      unlimited            unlimited            us
 """
 
 [[snippets]]
-  description = "List number of open files for Consul process ID via /proc"
+  description = "List number of open files for Vault process ID via /proc"
   command = "ls -l /proc/`pidof vault`/fd/ | wc -l"
-  tag = ["consul"]
+  tag = ["vault", "os"]
   output = """
 11
 """
