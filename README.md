@@ -97,4 +97,4 @@ Here are some links to resources for the technologies used in this project:
 
 ## Special Thanks
 
-Thanks to Teppei Fukuda for making pet!
+Thanks to [Teppei Fukuda](https://github.com/knqyf263) for making pet!
