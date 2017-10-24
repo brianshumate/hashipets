@@ -68,6 +68,15 @@ See the [pet README](https://github.com/knqyf263/pet/blob/master/README.md) for 
 
 Here are some links to resources for the technologies used in this project:
 
+- [Consul](https://www.consul.io/)
+- [Nomad](https://www.nomadproject.io/)
+- [Packer](https://www.packer.io/)
+- [Terraform](https://www.terraform.io/)
+- [Vagrant](https://www.vagrantup.com/)
+- [Vault](https://www.vaultproject.io/)
+- [pet](https://github.com/knqyf263/pet)
+- [fzf](https://github.com/junegunn/fzf)
+
 ## Who?
 
 hashipets was created by [Brian Shumate](https://github.com/brianshumate) and made possible through the generous time of the good people named in [CONTRIBUTORS.md](https://github.com/brianshumate/hashipets/blob/master/CONTRIBUTORS.md)
