@@ -38,7 +38,7 @@ Using the fantastic CLI utility `pet` and the [hashipets.toml] in this repositor
 You can optionally customize the `peco` fuzzy finder tool like so:
 
 ```
-$ mkdir $HOME/.config/peco &&\
+$ mkdir $HOME/.config/peco && \
   cp $DIR/hashipets/peco_config.json $_/config.json
 ```
 
