@@ -513,6 +513,11 @@ Max realtime timeout      unlimited            unlimited            us
 11
 """
 
+[[snippets]]
+  description = "Get latest HashiCorp product version"
+  command = "curl -s https://releases.hashicorp.com/<product>/index.json | jq -r '.versions[].version' | grep -v 'beta | rc' | tail -n 1"
+  output = ""
+
 #
 # End hashipets snippets
 #
