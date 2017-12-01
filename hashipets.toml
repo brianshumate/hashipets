@@ -515,8 +515,26 @@ Max realtime timeout      unlimited            unlimited            us
 
 [[snippets]]
   description = "Get latest HashiCorp product version"
-  command = "curl -s https://releases.hashicorp.com/<product>/index.json | jq -r '.versions[].version' | grep -v 'beta | rc' | tail -n 1"
+  command = "curl -s https://releases.hashicorp.com/<product>/index.json | jq -r '.versions[].version' | grep -Ev 'beta|rc' | tail -n 1"
   output = ""
+
+[[snippets]]
+  description = "Execute the Vault docker container with file backend and exposed port 8200 on localhost for Docker for Mac"
+  command = "docker run --cap-add=IPC_LOCK -p 8200:8200 -e 'VAULT_LOCAL_CONFIG={\"backend\": {\"file\": {\"path\": \"/vault/file\"}}, \"listener\": {\"tcp\": {\"address\": \"0.0.0.0:8200\", \"tls_disable\": true}}}' vault server"
+  tag = ["vault", "docker"]
+  output = """
+==> Vault server configuration:
+
+                     Cgo: disabled
+              Listener 1: tcp (addr: "0.0.0.0:8200", cluster address: "0.0.0.0:8201", tls: "disabled")
+               Log Level: info
+                   Mlock: supported: true, enabled: true
+                 Storage: file
+                 Version: Vault v0.9.0
+             Version Sha: bdac1854478538052ba5b7ec9a9ec688d35a3335
+
+==> Vault server started! Log data will stream in below:
+"""
 
 #
 # End hashipets snippets
