@@ -14,9 +14,7 @@
 # Consul snippets
 #
 
-##
-## `consul` command snippets
-##
+# `consul` command snippets
 
 [[snippets]]
   description = "List all known datacenters from the catalog"
@@ -139,9 +137,7 @@ Saved and verified snapshot to index 9001
 Configuration is valid!
 """
 
-##
-## OS commands related to Consul
-##
+# OS commands related to Consul
 
 [[snippets]]
   description = "List current ulimits for Consul process ID via /proc"
@@ -174,9 +170,7 @@ Max realtime timeout      unlimited            unlimited            us
 29
 """
 
-#
 # Nomad snippets
-#
 
 [[snippets]]
   description = "Validate a job file"
@@ -186,9 +180,7 @@ Max realtime timeout      unlimited            unlimited            us
 Job validation successful
 """
 
-#
 # Packer snippets
-#
 
 [[snippets]]
   description = "Validate template"
@@ -198,9 +190,7 @@ Job validation successful
 Template validated successfully.
 """
 
-#
 # Terraform snippets
-#
 
 [[snippets]]
   description = "Apply canoonical formatting to Terraform configuration files — execute from a directory of Terraform files"
@@ -227,9 +217,7 @@ Template validated successfully.
   command = "terraform validate"
   tag = ["terraform"]
 
-#
 # Vagrant snippets
-#
 
 [[snippets]]
   description = "Global status"
@@ -290,13 +278,9 @@ Host default
 Vagrantfile validated successfully.
 """
 
-#
 # Vault snippets
-#
 
-##
-## `vault` command snippets
-##
+# `vault` command snippets
 
 [[snippets]]
   description = "Display currently enabled authentication methods"
@@ -477,9 +461,7 @@ token_policies  [default]
 Success! Token revoked if it existed.
 """
 
-##
-## OS commands related to Vault
-##
+# OS commands related to Vault
 
 [[snippets]]
   description = "List current ulimits for Vault process ID via /proc"
