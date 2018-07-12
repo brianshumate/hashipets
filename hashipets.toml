@@ -205,8 +205,8 @@ Template validated successfully.
 .
 ├── provider.docker
 ├── module.consul_cluster
-│   ├── provider.docker (inherited)
-│   └── provider.template
+│   ├── provider.docker (inherited)
+│   └── provider.template
 └── module.vaultron
     ├── provider.docker (inherited)
     └── provider.template
@@ -284,7 +284,7 @@ Vagrantfile validated successfully.
 
 [[snippets]]
   description = "Display currently enabled authentication methods"
-  command = "vault auth -methods"
+  command = "vault auth list"
   tag = ["vault"]
   output = """
 Path       Type      Accessor                Default TTL  Max TTL  Replication Behavior  Description
@@ -313,7 +313,7 @@ Success! Deleted 'secret/foo' if it existed.
 
 [[snippets]]
   description = "Initialize Vault with only 1 key share"
-  command = "vault init -key-shares=1  -key-threshold=1"
+  command = "vault operator init -key-shares=1  -key-threshold=1"
   tag = ["vault"]
   output = """
 Unseal Key 1: zfpVosZWAwf6DsmRH2AgQzycjmPaHUsEmffAon1tY/4=
@@ -326,15 +326,6 @@ to unseal it again.
 
 Vault does not store the master key. Without at least 1 keys,
 your vault will remain permanently sealed.
-"""
-
-[[snippets]]
-  description = "Backend encryption key status - Term indicates the number of times the key has been rotated, e.g. with `vault rotate`"
-  command = "vault key-status"
-  tag = ["vault"]
-  output = """
-Key Term: 12
-Installation Time: 2017-10-22 04:19:44.610373537 +0000 UTC
 """
 
 [[snippets]]
@@ -351,7 +342,7 @@ key3
 
 [[snippets]]
   description = "Display current backend mounts"
-  command = "vault mounts"
+  command = "vault secrets list"
   tag = ["vault"]
   output = """
 Path                Type        Accessor             Plugin  Default TTL  Max TTL  Force No Cache  Replication Behavior  Description
@@ -368,18 +359,18 @@ sys/                system      system_d9c0b482      n/a     n/a          n/a   
 
 [[snippets]]
   description = "Write a policy (replaces existing policy)"
-  command = "vault policy-write <name> <path_to_policy_file.hcl>"
+  command = "vault policy write <name> <path_to_policy_file.hcl>"
   tag = ["vault"]
   output = """
 Policy '<name>' written.
 """
 
 [[snippets]]
-  description = "Remount currently mounted secret backend to new path"
-  command = "vault remount pki demo_pki"
+  description = "Move currently mounted Secrets Engine to new path"
+  command = "vault secrets move secret not_secret"
   tag = ["vault"]
   output = """
-Successfully remounted from 'pki' to 'demo_pki'!
+Success! Moved secrets engine secret/ to: not_secret/
 """
 
 [[snippets]]
@@ -403,21 +394,21 @@ High-Availability Enabled: true
 
 [[snippets]]
   description = "Create a token with specific policy and display name"
-  command = "vault token-create -policy=<policy_name> -display-name=\"<display_name>\""
+  command = "vault token create -policy=<policy_name> -display-name=\"<display_name>\""
   tag = ["vault"]
   output = """
-Key             Value
----             -----
-token           f3efa77c-ed31-bf53-fcd1-3044e7a57b26
-token_accessor  a6ba83b7-9c45-cd92-0427-c95c653daf59
-token_duration  768h0m0s
-token_renewable true
-token_policies  [default field_limited]
+Key                Value
+---                -----
+token              7cf18679-292a-3dc1-644d-f9d97ffad1fb
+token_accessor     6d7f0eb0-1b29-3c2c-be7e-6f27e404eaf9
+token_duration     50000h
+token_renewable    true
+token_policies     [default sudo]
 """
 
 [[snippets]]
   description = "Look up information about token - use token id to get information on any specific token or no options to look up token currently used for authentication"
-  command = "vault token-lookup <token_id>"
+  command = "vault token lookup <token_id>"
   tag = ["vault"]
   output = """
 Key               Value
@@ -441,7 +432,7 @@ ttl               2764753
 
 [[snippets]]
   description = "Renew a token"
-  command = "vault token-renew <tokend_id>"
+  command = "vault token renew <tokend_id>"
   tag = ["vault"]
   output = """
 Key             Value
@@ -455,7 +446,7 @@ token_policies  [default]
 
 [[snippets]]
   description = "Revoke a token - pass token accessor or id"
-  command = "vault token-revoke <token_accessor_or_id>"
+  command = "vault token revoke <token_accessor_or_id>"
   tag = ["vault"]
   output = """
 Success! Token revoked if it existed.
@@ -501,6 +492,26 @@ Max realtime timeout      unlimited            unlimited            us
   output = ""
 
 [[snippets]]
+  description = "Retrieve current EC2 instance identity document"
+  command = "curl -s http://169.254.169.254/latest/dynamic/instance-identity/document"
+  output = ""
+
+[[snippets]]
+  description = "Retrieve current EC2 instance signature"
+  command = "curl -s http://169.254.169.254/latest/dynamic/instance-identity/signature | tr --delete '\\n';echo"
+  output = ""
+
+[[snippets]]
+  description = "Retrieve current EC2 instance PKCS7 signature"
+  command = "curl -s http://169.254.169.254/latest/dynamic/instance-identity/pkcs7 | tr --delete '\\n';echo"
+  output = ""
+
+[[snippets]]
+  description = "Get ports Vault is listening on"
+  command = "sudo lsof -Pan -p `pidof vault` -i"
+  output = ""
+
+[[snippets]]
   description = "Execute the Vault docker container with file backend and exposed port 8200 on localhost for Docker for Mac"
   command = "docker run --cap-add=IPC_LOCK -p 8200:8200 -e 'VAULT_LOCAL_CONFIG={\"backend\": {\"file\": {\"path\": \"/vault/file\"}}, \"listener\": {\"tcp\": {\"address\": \"0.0.0.0:8200\", \"tls_disable\": true}}}' vault server"
   tag = ["vault", "docker"]
@@ -517,6 +528,24 @@ Max realtime timeout      unlimited            unlimited            us
 
 ==> Vault server started! Log data will stream in below:
 """
+
+[[snippets]]
+  description = "Tell Vaultron to use Vault OSS instances"
+  command = "export TF_VAR_vault_oss_instance_count=3 TF_VAR_vault_custom_instance_count=0"
+  tag = ["envvars"]
+  output = ""
+
+[[snippets]]
+  description = "Tell Vaultron to use Vault custom instances"
+  command = "export TF_VAR_vault_oss_instance_count=0 TF_VAR_vault_custom_instance_count=3"
+  tag = ["envvars"]
+  output = ""
+
+[[snippets]]
+  description = "Use vegeta to test Vault generic secret retrieval at rate of R per second for S seconds"
+  command = "echo \"GET $VAULT_ADDR/v1/secret/<secret>\" | vegeta attack -duration=<10s> -header \"X-Vault-Token: <vault_token>\" -rate <rate> | tee <results_file.bin> | vegeta report"
+  tag = ["vegeta"]
+  output = ""
 
 #
 # End hashipets snippets

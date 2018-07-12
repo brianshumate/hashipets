@@ -19,11 +19,11 @@ Consul, Nomad, Packer, Terraform, Vagrant, and Vault. The snippets are kept in a
 
 ## Why?
 
-It's a nice means of recalling and sharing complex one-liners and seldom used commands.
+It's a nice means of recalling and sharing complex one-liners and seldom used complex command line invocations.
 
 ## How?
 
-Using the fantastic CLI utility `pet` and the [hashipets.toml](https://github.com/brianshumate/hashipets/blob/master/hashipets.toml) in this repository, you'll be comanding HashiCorp tools like a pro in no time!
+Using the fantastic CLI utility `pet` and the [hashipets.toml](https://github.com/brianshumate/hashipets/blob/master/hashipets.toml) in this repository, you'll be commanding HashiCorp tools like a pro in no time!
 
 ### Quick Start for macOS
 
