@@ -283,32 +283,33 @@ Vagrantfile validated successfully.
 # `vault` command snippets
 
 [[snippets]]
-  description = "Display currently enabled authentication methods"
+  description = "Display currently enabled authentication methods; note: use '-detailed' to get more information"
   command = "vault auth list"
   tag = ["vault"]
   output = """
-Path       Type      Accessor                Default TTL  Max TTL  Replication Behavior  Description
-app-id/    app-id    auth_app-id_f25f2293    system       system   replicated
-approle/   approle   auth_approle_dc7e1103   system       system   replicated
-ldap/      ldap      auth_ldap_cf305f09      system       system   replicated
-token/     token     auth_token_16ada9ef     system       system   replicated            token based credentials
-userpass/  userpass  auth_userpass_4e7e54f8  system       system   replicated
+Path                  Type        Accessor                  Description
+----                  ----        --------                  -----------
+token/                token       auth_token_49b785fc       token based credentials
+vaultron-approle/     approle     auth_approle_1fc65824     n/a
+vaultron-cert/        cert        auth_cert_dfe0fa4c        n/a
+vaultron-ldap/        ldap        auth_ldap_21589dbe        n/a
+vaultron-userpass/    userpass    auth_userpass_7df71978    n/a
 """
 
 [[snippets]]
   description = "Check capabilities of token on a path"
-  command = "vault capabilties <token> <path>"
+  command = "vault token capabilities <token> <path>"
   tag = ["vault"]
   output = """
-Capabilities: [read]
+create, delete, list, sudo, update
 """
 
 [[snippets]]
-  description = "Delete data"
+  description = "Delete non-KV data"
   command = "vault delete <options> <path>"
   tag = ["vault"]
   output = """
-Success! Deleted 'secret/foo' if it existed.
+Success! Data deleted (if it existed) at: auth/aws/config/client
 """
 
 [[snippets]]
@@ -316,20 +317,24 @@ Success! Deleted 'secret/foo' if it existed.
   command = "vault operator init -key-shares=1  -key-threshold=1"
   tag = ["vault"]
   output = """
-Unseal Key 1: zfpVosZWAwf6DsmRH2AgQzycjmPaHUsEmffAon1tY/4=
-Initial Root Token: c0ffeee2-afb8-1437-d2f9-8e418e767557
+Unseal Key 1: LP6ue+JbCZwcS7wm+998s3SOsn4EwLLIUGwYQxzyOGE=
 
-Vault initialized with 1 keys and a key threshold of 1. Please
-securely distribute the above keys. When the vault is re-sealed,
-restarted, or stopped, you must provide at least 1 of these keys
-to unseal it again.
+Initial Root Token: nNZwpKLAsOIoPgx9O1yLc1Fe
 
-Vault does not store the master key. Without at least 1 keys,
-your vault will remain permanently sealed.
+Vault initialized with 1 key shares and a key threshold of 1. Please securely
+distribute the key shares printed above. When the Vault is re-sealed,
+restarted, or stopped, you must supply at least 1 of these keys to unseal it
+before it can start servicing requests.
+
+Vault does not store the generated master key. Without at least 1 key to
+reconstruct the master key, Vault will remain permanently sealed!
+
+It is possible to generate new unseal keys, provided you have a quorum of
+existing unseal keys shares. See "vault operator rekey" for more information.
 """
 
 [[snippets]]
-  description = "List secrets or data"
+  description = "List data"
   command = "vault list <path>"
   tag = ["vault"]
   output = """
@@ -345,16 +350,21 @@ key3
   command = "vault secrets list"
   tag = ["vault"]
   output = """
-Path                Type        Accessor             Plugin  Default TTL  Max TTL  Force No Cache  Replication Behavior  Description
-aws/                aws         aws_844bdea9         n/a     system       system   false           replicated
-consul/             consul      consul_8bbfb2cc      n/a     system       system   false           replicated
-cubbyhole/          cubbyhole   cubbyhole_5feea250   n/a     n/a          n/a      false           local                 per-token private secret storage
-pki/                pki         pki_172c280e         n/a     system       system   false           replicated
-postgresql/         postgresql  postgresql_b2aefde6  n/a     system       system   false           replicated
-secret/             kv          kv_7936a8a6          n/a     system       system   false           replicated            key/value secret storage
-ssh-client-signer/  ssh         ssh_7bbea075         n/a     system       system   false           replicated
-ssh-host-signer/    ssh         ssh_273bf496         n/a     system       system   false           replicated
-sys/                system      system_d9c0b482      n/a     n/a          n/a      false           replicated            system endpoints used for control, policy and debugging
+Path                           Type         Accessor              Description
+----                           ----         --------              -----------
+cubbyhole/                     cubbyhole    cubbyhole_aae47cd8    per-token private secret storage
+identity/                      identity     identity_4af992e0     identity store
+secret/                        kv           kv_0de8a80b           key/value secret storage
+sys/                           system       system_d46b244a       system endpoints used for control, policy and debugging
+vaultron-aws/                  aws          aws_cfe04cc8          n/a
+vaultron-consul/               consul       consul_d97c654d       n/a
+vaultron-database/             database     database_e8610049     n/a
+vaultron-int-pki/              pki          pki_ae019715          n/a
+vaultron-kv/                   kv           kv_eddfb7d5           n/a
+vaultron-root-pki/             pki          pki_631d00da          n/a
+vaultron-ssh-client-signer/    ssh          ssh_8af6cdec          n/a
+vaultron-ssh-host-signer/      ssh          ssh_1a312ca2          n/a
+vaultron-transit/              transit      transit_c12713ca      n/a
 """
 
 [[snippets]]
@@ -362,7 +372,7 @@ sys/                system      system_d9c0b482      n/a     n/a          n/a   
   command = "vault policy write <name> <path_to_policy_file.hcl>"
   tag = ["vault"]
   output = """
-Policy '<name>' written.
+Success! Uploaded policy: '<name>'
 """
 
 [[snippets]]
@@ -378,18 +388,18 @@ Success! Moved secrets engine secret/ to: not_secret/
   command = "vault status"
   tag = ["vault"]
   output = """
-Sealed: false
-Key Shares: 5
-Key Threshold: 3
-Unseal Progress: 0
-Unseal Nonce:
-Version: 0.8.3
-Cluster Name: vaultron
-Cluster ID: 34fcf74f-0b2e-de18-1d71-c5e85723df89
-
-High-Availability Enabled: true
-  Mode: active
-  Leader Cluster Address: https://172.17.0.7:8201
+Key             Value
+---             -----
+Seal Type       shamir
+Sealed          false
+Total Shares    1
+Threshold       1
+Version         0.11.1+prem
+Cluster Name    vaultron
+Cluster ID      c7fec15d-5b17-204c-c2c7-1b8bf1b2c935
+HA Enabled      true
+HA Cluster      https://172.17.0.9:8201
+HA Mode         active
 """
 
 [[snippets]]
@@ -397,13 +407,15 @@ High-Availability Enabled: true
   command = "vault token create -policy=<policy_name> -display-name=\"<display_name>\""
   tag = ["vault"]
   output = """
-Key                Value
----                -----
-token              7cf18679-292a-3dc1-644d-f9d97ffad1fb
-token_accessor     6d7f0eb0-1b29-3c2c-be7e-6f27e404eaf9
-token_duration     50000h
-token_renewable    true
-token_policies     [default sudo]
+Key                  Value
+---                  -----
+token                s76SWJxcjSNWHysTpVTf0Ojm
+token_accessor       7xXArZvBRlOHyvATEU9wIy0H
+token_duration       50000h
+token_renewable      true
+token_policies       ["default" "policy_name"]
+identity_policies    []
+policies             ["default" "policy_name"
 """
 
 [[snippets]]
