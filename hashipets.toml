@@ -10,9 +10,9 @@
 #    An awesome collection of pet snippets for use
 #    with all of the great HashiCorp tools
 
-#
+#----------------------------------------------------------------------------
 # Consul snippets
-#
+#----------------------------------------------------------------------------
 
 # `consul` command snippets
 
@@ -170,7 +170,9 @@ Max realtime timeout      unlimited            unlimited            us
 29
 """
 
+#----------------------------------------------------------------------------
 # Nomad snippets
+#----------------------------------------------------------------------------
 
 [[snippets]]
   description = "Validate a job file"
@@ -190,7 +192,9 @@ Job validation successful
 Template validated successfully.
 """
 
+#----------------------------------------------------------------------------
 # Terraform snippets
+#----------------------------------------------------------------------------
 
 [[snippets]]
   description = "Apply canoonical formatting to Terraform configuration files — execute from a directory of Terraform files"
@@ -217,7 +221,9 @@ Template validated successfully.
   command = "terraform validate"
   tag = ["terraform"]
 
+#----------------------------------------------------------------------------
 # Vagrant snippets
+#----------------------------------------------------------------------------
 
 [[snippets]]
   description = "Global status"
@@ -278,7 +284,9 @@ Host default
 Vagrantfile validated successfully.
 """
 
+#----------------------------------------------------------------------------
 # Vault snippets
+#----------------------------------------------------------------------------
 
 # `vault` command snippets
 
@@ -521,7 +529,27 @@ Max realtime timeout      unlimited            unlimited            us
 [[snippets]]
   description = "Get ports Vault is listening on"
   command = "sudo lsof -Pan -p `pidof vault` -i"
-  output = ""
+  output = """
+COMMAND   PID    USER   FD   TYPE DEVICE SIZE/OFF NODE NAME
+vault   13987 vagrant    5u  IPv4  49577      0t0  TCP 127.0.0.1:43138->127.0.0.1:8500 (ESTABLISHED)
+vault   13987 vagrant    6u  IPv4  42403      0t0  TCP *:8200 (LISTEN)
+vault   13987 vagrant    9u  IPv4  41750      0t0  TCP 127.0.0.1:43106->127.0.0.1:8500 (ESTABLISHED)
+vault   13987 vagrant   10u  IPv6  42626      0t0  TCP *:8201 (LISTEN)
+"""
+
+[[snippets]]
+  description = "Get Vault log entries from journalctl output"
+  command = "journalctl | awk '$5 ~ \"vault\"'"
+  output = """
+...
+Oct 02 19:32:10 vault-nano-bionic vault[13987]: 2018-10-02T19:32:10.087Z [DEBUG] rollback: attempting rollback: path=auth/token/
+Oct 02 19:32:10 vault-nano-bionic vault[13987]: 2018-10-02T19:32:10.088Z [DEBUG] rollback: attempting rollback: path=secret/
+Oct 02 19:32:10 vault-nano-bionic vault[13987]: 2018-10-02T19:32:10.088Z [DEBUG] rollback: attempting rollback: path=identity/
+Oct 02 19:32:10 vault-nano-bionic vault[13987]: 2018-10-02T19:32:10.088Z [DEBUG] rollback: attempting rollback: path=sys/
+Oct 02 19:32:10 vault-nano-bionic vault[13987]: 2018-10-02T19:32:10.088Z [DEBUG] rollback: attempting rollback: path=cubbyhole/
+Oct 02 19:32:10 vault-nano-bionic vault[13987]: 2018-10-02T19:32:10.088Z [DEBUG] rollback: attempting rollback: path=database/
+...
+"""
 
 [[snippets]]
   description = "Execute the Vault docker container with file backend and exposed port 8200 on localhost for Docker for Mac"
