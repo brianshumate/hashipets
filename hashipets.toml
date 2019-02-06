@@ -178,6 +178,12 @@ Max realtime timeout      unlimited            unlimited            us
 80383ac3ae1a231c439fec0e8fcd834e6e574f9e668db6d455529ef490fde5fd
 """
 
+[[snippets]]
+  description = "Get Consul log entries from journalctl output"
+  command = "journalctl | awk '$5 ~ \"consul\"'"
+  output = """
+...
+"""
 
 #----------------------------------------------------------------------------
 # Nomad snippets
@@ -300,7 +306,7 @@ Vagrantfile validated successfully.
 # `vault` command snippets
 
 [[snippets]]
-  description = "Display currently enabled authentication methods; note: use '-detailed' to get more information"
+  description = "Display currently enabled auth methods; note: use '-detailed' to get more information"
   command = "vault auth list"
   tag = ["vault"]
   output = """
@@ -334,9 +340,9 @@ Success! Data deleted (if it existed) at: auth/aws/config/client
   command = "vault operator init -key-shares=1  -key-threshold=1"
   tag = ["vault"]
   output = """
-Unseal Key 1: LP6ue+JbCZwcS7wm+998s3SOsn4EwLLIUGwYQxzyOGE=
+Unseal Key 1: Yp5mYpLU4kF3bkjuTukpQPksG5r9MKqbam6t7d/lbJI=
 
-Initial Root Token: nNZwpKLAsOIoPgx9O1yLc1Fe
+Initial Root Token: s.pOzeU7KqJHQHCi1RzmHqPfCh
 
 Vault initialized with 1 key shares and a key threshold of 1. Please securely
 distribute the key shares printed above. When the Vault is re-sealed,
@@ -348,6 +354,21 @@ reconstruct the master key, Vault will remain permanently sealed!
 
 It is possible to generate new unseal keys, provided you have a quorum of
 existing unseal keys shares. See "vault operator rekey" for more information.
+"""
+
+[[snippets]]
+  description = "Initialize Vault for HSM or clous seal with only 1 key share"
+  command = "vault operator init -key-shares=1 -key-threshold=1 -stored-shares=1 -recovery-shares=1 -recovery-threshold=1"
+  tag = ["vault"]
+  output = """
+Recovery Key 1: LXuYIR5C/Iag+PMHFgR6tCQmIZYtzA4vJuu2klZCuqQ=
+
+Initial Root Token: s.1iDeCXldWyW696NpY0Ni4uxm
+
+Success! Vault is initialized
+
+Recovery key initialized with 1 key shares and a key threshold of 1. Please
+securely distribute the key shares printed above.
 """
 
 [[snippets]]
@@ -369,19 +390,19 @@ key3
   output = """
 Path                           Type         Accessor              Description
 ----                           ----         --------              -----------
-cubbyhole/                     cubbyhole    cubbyhole_aae47cd8    per-token private secret storage
-identity/                      identity     identity_4af992e0     identity store
-secret/                        kv           kv_0de8a80b           key/value secret storage
-sys/                           system       system_d46b244a       system endpoints used for control, policy and debugging
-vaultron-aws/                  aws          aws_cfe04cc8          n/a
-vaultron-consul/               consul       consul_d97c654d       n/a
-vaultron-database/             database     database_e8610049     n/a
-vaultron-int-pki/              pki          pki_ae019715          n/a
-vaultron-kv/                   kv           kv_eddfb7d5           n/a
-vaultron-root-pki/             pki          pki_631d00da          n/a
-vaultron-ssh-client-signer/    ssh          ssh_8af6cdec          n/a
-vaultron-ssh-host-signer/      ssh          ssh_1a312ca2          n/a
-vaultron-transit/              transit      transit_c12713ca      n/a
+cubbyhole/                     cubbyhole    cubbyhole_b78a3ded    per-token private secret storage
+identity/                      identity     identity_38f40b2b     identity store
+secret/                        kv           kv_96088f65           key/value secret storage
+sys/                           system       system_18ca4813       system endpoints used for control, policy and debugging
+vaultron-aws/                  aws          aws_7b6bc58b          Vaultron example AWS secrets engine
+vaultron-consul/               consul       consul_f394b16d       Vaultron example Consul secrets engine
+vaultron-kv/                   kv           kv_f713b007           Vaultron example KV version 1 secrets engine
+vaultron-root-int/             pki          pki_88b3f1cb          Vaultron example PKI secrets engine (for int CA)
+vaultron-root-pki/             pki          pki_16252747          Vaultron example PKI secrets engine (for root CA)
+vaultron-ssh-client-signer/    ssh          ssh_1000e909          Vaultron example SSH Secrets Engine (client)
+vaultron-ssh-host-signer/      ssh          ssh_54abe30e          Vaultron example SSH Secrets Engine (host)
+vaultron-totp/                 totp         totp_9e0cbbf1         Vaultron example TOTP Secrets Engine
+vaultron-transit/              transit      transit_dd0490df      Vaultron example Transit secrets engine
 """
 
 [[snippets]]
@@ -394,10 +415,10 @@ Success! Uploaded policy: '<name>'
 
 [[snippets]]
   description = "Move currently mounted Secrets Engine to new path"
-  command = "vault secrets move secret not_secret"
+  command = "vault secrets move secret other_secret"
   tag = ["vault"]
   output = """
-Success! Moved secrets engine secret/ to: not_secret/
+Success! Moved secrets engine secret/ to: other_secret/
 """
 
 [[snippets]]
@@ -426,8 +447,8 @@ HA Mode         active
   output = """
 Key                  Value
 ---                  -----
-token                s76SWJxcjSNWHysTpVTf0Ojm
-token_accessor       7xXArZvBRlOHyvATEU9wIy0H
+token                s.23C6ZrsyZOmRig3fIv3RbOSu
+token_accessor       sxYYZ7MmBDBXXoojJ0X6cojj
 token_duration       50000h
 token_renewable      true
 token_policies       ["default" "policy_name"]
@@ -440,23 +461,25 @@ policies             ["default" "policy_name"
   command = "vault token lookup <token_id>"
   tag = ["vault"]
   output = """
-Key               Value
----               -----
-accessor          88e104ec-2cfc-b1f5-9602-7b821e3ccb7e
-creation_time     1508645572
-creation_ttl      2764800
-display_name      token-orphan-extra
-expire_time       2017-11-23T04:12:52.259602475Z
-explicit_max_ttl  0
-id                09d68f76-55d7-95fe-b5c2-6f984b0ed011
-issue_time        2017-10-22T04:12:52.259596082Z
-meta              <nil>
-num_uses          0
-orphan            false
-path              auth/token/create
-policies          [default]
-renewable         true
-ttl               2764753
+Key                 Value
+---                 -----
+accessor            sxYYZ7MmBDBXXoojJ0X6cojj
+creation_time       1549385899
+creation_ttl        50000h
+display_name        token-wildout
+entity_id           n/a
+expire_time         2024-10-20T00:58:19.3381512Z
+explicit_max_ttl    0s
+id                  s.23C6ZrsyZOmRig3fIv3RbOSu
+issue_time          2019-02-05T16:58:19.3381373Z
+meta                <nil>
+num_uses            0
+orphan              false
+path                auth/token/create
+policies            [default]
+renewable           true
+ttl                 49999h59m15s
+type                service
 """
 
 [[snippets]]
@@ -464,13 +487,15 @@ ttl               2764753
   command = "vault token renew <tokend_id>"
   tag = ["vault"]
   output = """
-Key             Value
----             -----
-token           9c66f38b-5f6f-19f1-c653-48a06b462aec
-token_accessor  89e48f3d-d612-e2d3-2757-74abbe20c09d
-token_duration  767h56m57s
-token_renewable true
-token_policies  [default]
+Key                  Value
+---                  -----
+token                s.23C6ZrsyZOmRig3fIv3RbOSu
+token_accessor       sxYYZ7MmBDBXXoojJ0X6cojj
+token_duration       49999h58m20s
+token_renewable      true
+token_policies       ["default"]
+identity_policies    []
+policies             ["default"]
 """
 
 [[snippets]]
@@ -561,21 +586,22 @@ Oct 02 19:32:10 vault-nano-bionic vault[13987]: 2018-10-02T19:32:10.088Z [DEBUG]
 """
 
 [[snippets]]
-  description = "Execute the Vault docker container with file backend and exposed port 8200 on localhost for Docker for Mac"
-  command = "docker run --cap-add=IPC_LOCK -p 8200:8200 -e 'VAULT_LOCAL_CONFIG={\"backend\": {\"file\": {\"path\": \"/vault/file\"}}, \"listener\": {\"tcp\": {\"address\": \"0.0.0.0:8200\", \"tls_disable\": true}}}' vault server"
+  description = "Execute a Vault docker container with transactional in memory storage"
+  command = "docker run --cap-add=IPC_LOCK -p 8200:8200 vault server -dev-transactional"
   tag = ["vault", "docker"]
   output = """
 ==> Vault server configuration:
 
+             Api Address: http://0.0.0.0:8200
                      Cgo: disabled
-              Listener 1: tcp (addr: "0.0.0.0:8200", cluster address: "0.0.0.0:8201", tls: "disabled")
-               Log Level: info
-                   Mlock: supported: true, enabled: true
-                 Storage: file
-                 Version: Vault v0.9.0
-             Version Sha: bdac1854478538052ba5b7ec9a9ec688d35a3335
-
-==> Vault server started! Log data will stream in below:
+         Cluster Address: https://0.0.0.0:8201
+              Listener 1: tcp (addr: "0.0.0.0:8200", cluster address: "0.0.0.0:8201", max_request_duration: "1m30s", max_request_size: "33554432", tls: "disabled")
+               Log Level: (not set)
+                   Mlock: supported: true, enabled: false
+                 Storage: inmem_transactional
+                 Version: Vault v0.11.4
+             Version Sha: 612120e76de651ef669c9af5e77b27a749b0dba3
+...
 """
 
 [[snippets]]
@@ -595,6 +621,20 @@ Oct 02 19:32:10 vault-nano-bionic vault[13987]: 2018-10-02T19:32:10.088Z [DEBUG]
   command = "echo \"GET $VAULT_ADDR/v1/secret/<secret>\" | vegeta attack -duration=<10s> -header \"X-Vault-Token: <vault_token>\" -rate <rate> | tee <results_file.bin> | vegeta report"
   tag = ["vegeta"]
   output = ""
+
+[[snippets]]
+  description = "Use jq to find non-empty errors in audit log output"
+  command = "jq 'select(.error != \"\") | [.time,.error] | @sh' <vault_audit_log_file>"
+  tag = ["jq"]
+  output = """
+"'2019-02-04T14:20:33.998532424Z' '1 error occurred:\n\t* invalid request\n\n'"
+"'2019-02-04T14:20:34.033386661Z' 'missing client token'"
+"'2019-02-04T14:20:34.033543831Z' '1 error occurred:\n\t* invalid request\n\n'"
+"'2019-02-04T14:31:03.25089997Z' 'permission denied'"
+"'2019-02-04T14:31:03.272795797Z' 'permission denied'"
+"'2019-02-04T14:31:03.399976427Z' 'permission denied'"
+"'2019-02-04T14:31:03.400159152Z' '1 error occurred:\n\t* permission denied\n\n'"
+"""
 
 #
 # End hashipets snippets
