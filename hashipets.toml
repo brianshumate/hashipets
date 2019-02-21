@@ -179,8 +179,8 @@ Max realtime timeout      unlimited            unlimited            us
 """
 
 [[snippets]]
-  description = "Get Consul log entries from journalctl output"
-  command = "journalctl | awk '$5 ~ \"consul\"'"
+  description = "Get Consul log entries from journalctl output provided service name is 'consul'"
+  command = "journalctl -u consul"
   output = """
 ...
 """
@@ -572,16 +572,9 @@ vault   13987 vagrant   10u  IPv6  42626      0t0  TCP *:8201 (LISTEN)
 """
 
 [[snippets]]
-  description = "Get Vault log entries from journalctl output"
-  command = "journalctl | awk '$5 ~ \"vault\"'"
+  description = "Get Vault log entries from journalctl output provided service name is 'vault'"
+  command = "journalctl -u vault"
   output = """
-...
-Oct 02 19:32:10 vault-nano-bionic vault[13987]: 2018-10-02T19:32:10.087Z [DEBUG] rollback: attempting rollback: path=auth/token/
-Oct 02 19:32:10 vault-nano-bionic vault[13987]: 2018-10-02T19:32:10.088Z [DEBUG] rollback: attempting rollback: path=secret/
-Oct 02 19:32:10 vault-nano-bionic vault[13987]: 2018-10-02T19:32:10.088Z [DEBUG] rollback: attempting rollback: path=identity/
-Oct 02 19:32:10 vault-nano-bionic vault[13987]: 2018-10-02T19:32:10.088Z [DEBUG] rollback: attempting rollback: path=sys/
-Oct 02 19:32:10 vault-nano-bionic vault[13987]: 2018-10-02T19:32:10.088Z [DEBUG] rollback: attempting rollback: path=cubbyhole/
-Oct 02 19:32:10 vault-nano-bionic vault[13987]: 2018-10-02T19:32:10.088Z [DEBUG] rollback: attempting rollback: path=database/
 ...
 """
 
@@ -635,6 +628,12 @@ Oct 02 19:32:10 vault-nano-bionic vault[13987]: 2018-10-02T19:32:10.088Z [DEBUG]
 "'2019-02-04T14:31:03.399976427Z' 'permission denied'"
 "'2019-02-04T14:31:03.400159152Z' '1 error occurred:\n\t* permission denied\n\n'"
 """
+
+[[snippets]]
+  description = "Use strace to examine Vault process system calls"
+  command = "strace -fp $(pidof vault)"
+  tag = ["strace"]
+  output = ""
 
 #
 # End hashipets snippets
