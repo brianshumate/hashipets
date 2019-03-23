@@ -1,14 +1,15 @@
-#    ============================================
+# =======================================================================
 #     _               _     _            _
 #    | |__   __ _ ___| |__ (_)_ __   ___| |_ ___
 #    | '_ \ / _` / __| '_ \| | '_ \ / _ \ __/ __|
 #    | | | | (_| \__ \ | | | | |_) |  __/ |_\__ \
 #    |_| |_|\__,_|___/_| |_|_| .__/ \___|\__|___/
 #                            |_|
-#    --------------------------------------------
 #
 #    An awesome collection of pet snippets for use
 #    with all of the great HashiCorp tools
+#
+# =======================================================================
 
 #----------------------------------------------------------------------------
 # Consul snippets
@@ -29,13 +30,13 @@ dc1
   command = "consul catalog nodes"
   tag = ["consul"]
   output = """
-Node                 ID        Address     DC
-consul_oss_client_0  57a2531f  172.17.0.5  dc1
-consul_oss_client_1  4f05e71e  172.17.0.7  dc1
-consul_oss_client_2  425e9e82  172.17.0.6  dc1
-consul_oss_server_0  540ba725  172.17.0.2  dc1
-consul_oss_server_1  ee2fcd1f  172.17.0.3  dc1
-consul_oss_server_2  8d37a161  172.17.0.4  dc1
+Node      ID        Address     DC
+consuls0  698fcc66  172.17.0.2  dc1
+consuls1  99b48ba6  172.17.0.4  dc1
+consuls2  f1fd7e96  172.17.0.3  dc1
+vault0    4937ba93  172.17.0.5  dc1
+vault1    e1252bcc  172.17.0.7  dc1
+vault2    4b18b9a0  172.17.0.6  dc1
 """
 
 [[snippets]]

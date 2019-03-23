@@ -14,8 +14,10 @@
 
 ## What?
 
-🐶 **hashipets** is a collection of snippets for use with HashiCorp tools like
+**hashipets** is a collection of snippets for use with HashiCorp tools like
 Consul, Nomad, Packer, Terraform, Vagrant, and Vault. The snippets are kept in a TOML file that is compatible with the simple command-line snippet manager [pet](https://github.com/knqyf263/pet).
+
+> **NOTE**: The commands in `hashipets.toml` should reflect those available in recent versions of the tool they apply to.
 
 ## Why?
 
