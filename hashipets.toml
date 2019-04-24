@@ -138,6 +138,39 @@ Saved and verified snapshot to index 9001
 Configuration is valid!
 """
 
+[[snippets]]
+  description = "Sort and summarize Vault Consul KV usage"
+  command = "consul kv get -recurse -keys -separator=\" \" vault/ | awk -F\"/\" '{print $3}' | sort | uniq -c | sort -nr"
+  tag = ["consul", "vault"]
+  output = """
+ 313 logs
+ 278 pages
+ 209 token
+ 102 expire
+ 100 650477ae-0625-9b37-2f5d-8651a1b61a24
+  11 policy
+   7 23eba1e2-ec43-9015-f259-300e8a3a7539
+   6 5f16a57b-9a95-abd5-51a0-0c612fb2a86f
+   5 3554d8b1-f411-4e2a-7ee4-69e590b88051
+   2 checkpoint
+   1 wrapping
+   1 seal-config
+   1 mounts
+   1 master
+   1 lock
+   1 local-mounts
+   1 local-auth
+   1 local-audit
+   1 leader
+   1 keyring
+   1 dcc00dea-05b2-f4cb-cbdc-ec7bedcfcb2c
+   1 counters
+   1 cluster
+   1 auth
+   1 audit
+   1 763e93a2-8591-1a11-2a1c-2d6ae6408fd8
+"""
+
 # OS commands related to Consul
 
 [[snippets]]
