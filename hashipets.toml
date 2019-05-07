@@ -219,6 +219,13 @@ Max realtime timeout      unlimited            unlimited            us
 ...
 """
 
+[[snippets]]
+  description = "Discover K/V key names with odd UTF8 and UTF16 values"
+  command = "curl -s 'http://127.0.0.1:8500/v1/kv/<path>/?keys=true&recurse=true&separator=' | jq -r .[] | iconv -f utf-8 -t utf-16 | grep -avx '.*'"
+  tag = ["consul", "utf8", "utf16"]
+  output = """
+"""
+
 #----------------------------------------------------------------------------
 # Nomad snippets
 #----------------------------------------------------------------------------
