@@ -550,6 +550,20 @@ Success! Token revoked if it existed.
 # OS commands related to Vault
 
 [[snippets]]
+  description = "Split out Audit Device entries from a combined syslog with ripgrep"
+  command = "rg '\\{\"time\":\"' <vault_combined_log> > <vault_audit_device.log>"
+  tag = ["vault", "os", "ripgrep"]
+  output = """
+"""
+
+[[snippets]]
+  description = "Split out operational log entries from a combined syslog with ripgrep"
+  command = "rg '(INFO|DEBUG|ERROR|TRACE|WARNING)' <vault_combined_log> > <vault_operational.log>"
+  tag = ["vault", "os", "ripgrep"]
+  output = """
+"""
+
+[[snippets]]
   description = "List current ulimits for Vault process ID via /proc"
   command = "cat /proc/`pidof vault`/limits"
   tag = ["vault", "os"]
