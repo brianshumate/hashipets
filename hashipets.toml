@@ -547,7 +547,9 @@ policies             ["default"]
 Success! Token revoked if it existed.
 """
 
-# OS commands related to Vault
+#----------------------------------------------------------------------------
+# OS and utility commands related to Vault
+#----------------------------------------------------------------------------
 
 [[snippets]]
   description = "Split out Audit Device entries from a combined syslog with ripgrep"
@@ -671,9 +673,33 @@ vault   13987 vagrant   10u  IPv6  42626      0t0  TCP *:8201 (LISTEN)
   output = ""
 
 [[snippets]]
+  description = "Use strace to examine Vault process system calls"
+  command = "strace -fp $(pidof vault)"
+  tag = ["strace"]
+  output = ""
+
+#----------------------------------------------------------------------------
+# jq snippets for general Vault stuff
+#----------------------------------------------------------------------------
+
+[[snippets]]
+  description = "Use jq to accessors of all tokens with a root policy"
+  command = "for a in $(vault list -format=json auth/token/accessors | jq -r '. | .[]'); do vault token lookup -format=json -accessor $a | jq -r 'select(.data.policies | index(\"root\")) | .data.accessor'; done"
+  tag = ["vault", "jq"]
+  output = """
+Jgn9OV0Egkr7CNEQdgh6VfnC
+WSyBFE0Lr5Py3aPzdGZ8Oe1p
+VqwYsVCimeg4Wc7EoKGzbdQ7
+"""
+
+#----------------------------------------------------------------------------
+# jq snippets for inspecting Vault Audit Device logs
+#----------------------------------------------------------------------------
+
+[[snippets]]
   description = "Use jq to find non-empty errors in audit log output"
   command = "jq 'select(.error != \"\") | [.time,.error] | @sh' <vault_audit_log_file>"
-  tag = ["jq"]
+  tag = ["vault", "audit", "jq"]
   output = """
 "'2019-02-04T14:20:33.998532424Z' '1 error occurred:\n\t* invalid request\n\n'"
 "'2019-02-04T14:20:34.033386661Z' 'missing client token'"
@@ -685,10 +711,17 @@ vault   13987 vagrant   10u  IPv6  42626      0t0  TCP *:8201 (LISTEN)
 """
 
 [[snippets]]
-  description = "Use strace to examine Vault process system calls"
-  command = "strace -fp $(pidof vault)"
-  tag = ["strace"]
-  output = ""
+  description = "Use jq to find non-empty errors in audit log output and include the remote address"
+  command = "jq 'select(.error != \"\") | [.time,.request.remote_address,.error] | @sh' <vault_audit_log_file>"
+  tag = ["vault", "audit", "jq"]
+  output = """
+"'2019-08-14T13:05:15.343768707Z' '28.141.217.71' '1 error occurred:\n\t* invalid request\n\n'"
+"'2019-08-14T13:05:15.454953004Z' '28.141.217.71' 'missing client token'"
+"'2019-08-14T13:05:15.455388459Z' '28.141.217.71' '1 error occurred:\n\t* invalid request\n\n'"
+"'2019-08-14T13:55:04.816948555Z' '28.141.217.71' 'permission denied'"
+"'2019-08-14T13:55:04.81739815Z' '28.141.217.71' '1 error occurred:\n\t* permission denied\n\n'"
+"'2019-08-14T13:55:04.91759192Z' '28.141.217.71' 'permission denied'"
+"""
 
 #
 # End hashipets snippets
