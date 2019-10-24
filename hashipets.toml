@@ -1,4 +1,4 @@
-# =======================================================================
+#============================================================================
 #     _               _     _            _
 #    | |__   __ _ ___| |__ (_)_ __   ___| |_ ___
 #    | '_ \ / _` / __| '_ \| | '_ \ / _ \ __/ __|
@@ -6,16 +6,18 @@
 #    |_| |_|\__,_|___/_| |_|_| .__/ \___|\__|___/
 #                            |_|
 #
-#    An awesome collection of pet snippets for use
-#    with all of the great HashiCorp tools
+#    🐶 An awesome collection of pet snippets for use
+#    with all of the great HashiCorp command line tools!
 #
-# =======================================================================
+#============================================================================
+# Begin hashipets snippets
+#============================================================================
 
 #----------------------------------------------------------------------------
 # Consul snippets
 #----------------------------------------------------------------------------
 
-# `consul` command snippets
+# Begin consul CLI snippets
 
 [[snippets]]
   description = "List all known datacenters from the catalog"
@@ -171,7 +173,9 @@ Configuration is valid!
    1 763e93a2-8591-1a11-2a1c-2d6ae6408fd8
 """
 
-# OS commands related to Consul
+# End consul CLI snippets
+
+# Begin Consul related OS commands
 
 [[snippets]]
   description = "List current ulimits for Consul process ID via /proc"
@@ -230,6 +234,8 @@ Max realtime timeout      unlimited            unlimited            us
 # Nomad snippets
 #----------------------------------------------------------------------------
 
+# Begin nomad CLI snippets
+
 [[snippets]]
   description = "Validate a job file"
   command = "nomad validate <job_file.nomad>"
@@ -238,7 +244,13 @@ Max realtime timeout      unlimited            unlimited            us
 Job validation successful
 """
 
+# End nomad CLI snippets
+
+#----------------------------------------------------------------------------
 # Packer snippets
+#----------------------------------------------------------------------------
+
+# Begin packer CLI snippets
 
 [[snippets]]
   description = "Validate template"
@@ -248,9 +260,13 @@ Job validation successful
 Template validated successfully.
 """
 
+# End packer CLI snippets
+
 #----------------------------------------------------------------------------
 # Terraform snippets
 #----------------------------------------------------------------------------
+
+# Begin terraform CLI snippets
 
 [[snippets]]
   description = "Apply canoonical formatting to Terraform configuration files — execute from a directory of Terraform files"
@@ -277,9 +293,13 @@ Template validated successfully.
   command = "terraform validate"
   tag = ["terraform"]
 
+# End terraform CLI snippets
+
 #----------------------------------------------------------------------------
 # Vagrant snippets
 #----------------------------------------------------------------------------
+
+# Begin vagrant CLI snippets
 
 [[snippets]]
   description = "Global status"
@@ -340,11 +360,13 @@ Host default
 Vagrantfile validated successfully.
 """
 
+# End vagrant CLI snippets
+
 #----------------------------------------------------------------------------
 # Vault snippets
 #----------------------------------------------------------------------------
 
-# `vault` command snippets
+# Begin vault CLI snippets
 
 [[snippets]]
   description = "Display currently enabled auth methods; note: use '-detailed' to get more information"
@@ -547,9 +569,25 @@ policies             ["default"]
 Success! Token revoked if it existed.
 """
 
-#----------------------------------------------------------------------------
-# OS and utility commands related to Vault
-#----------------------------------------------------------------------------
+[[snippets]]
+  description = "Login with username and password auth method and pass token to macOS system clipboard after entering password when prompted"
+  command = "vault login -field=token -method=userpass username=<username> | pbcopy"
+  tag = ["vault", "macOS"]
+  output = """
+Password (will be hidden):
+"""
+
+[[snippets]]
+  description = "Login with username and password auth method and pass token to Linux system clipboard after entering password when prompted"
+  command = "vault login -field=token -method=userpass username=<username> | xclip -sel clip"
+  tag = ["vault", "Linux"]
+  output = """
+Password (will be hidden):
+"""
+
+# End vault CLI snippets
+
+# Begin Vault related OS commands
 
 [[snippets]]
   description = "Split out Audit Device entries from a combined syslog with ripgrep"
@@ -723,6 +761,8 @@ VqwYsVCimeg4Wc7EoKGzbdQ7
 "'2019-08-14T13:55:04.91759192Z' '28.141.217.71' 'permission denied'"
 """
 
-#
+# End Vault related OS commands
+
+#============================================================================
 # End hashipets snippets
-#
+#============================================================================
