@@ -230,6 +230,14 @@ Max realtime timeout      unlimited            unlimited            us
   output = """
 """
 
+[[snippets]]
+  description = "Get latest Consul release version"
+  command = "curl -s https://releases.hashicorp.com/consul/index.json | jq -r '.versions[].version' | grep -Ev 'beta|rc|\\+ent' | tail -n1"
+  output = """
+1.6.1
+"""
+
+
 #----------------------------------------------------------------------------
 # Nomad snippets
 #----------------------------------------------------------------------------
@@ -636,9 +644,11 @@ Max realtime timeout      unlimited            unlimited            us
 """
 
 [[snippets]]
-  description = "Get latest HashiCorp product version"
-  command = "curl -s https://releases.hashicorp.com/<product>/index.json | jq -r '.versions[].version' | grep -Ev 'beta|rc' | tail -n 1"
-  output = ""
+  description = "Get latest Vault release version"
+  command = "curl -s https://releases.hashicorp.com/vault/index.json | jq -r '.versions[].version' | grep -Ev 'beta|rc|\\+ent|\\+ent.hsm' | tail -n1"
+  output = """
+1.2.3
+"""
 
 [[snippets]]
   description = "Retrieve current EC2 instance identity document"
@@ -714,6 +724,12 @@ vault   13987 vagrant   10u  IPv6  42626      0t0  TCP *:8201 (LISTEN)
   description = "Use strace to examine Vault process system calls"
   command = "strace -fp $(pidof vault)"
   tag = ["strace"]
+  output = ""
+
+[[snippets]]
+  description = "Send a Vault Docker container logs to gzipped file"
+  command = "docker logs <container_name> 2>&1 | gzip -9 - > <container_name>.log.gz"
+  tag = ["docker", "gzip"]
   output = ""
 
 #----------------------------------------------------------------------------
